@@ -1,0 +1,232 @@
+package model.Transport;
+
+import hibernate.DestinationHib;
+import hibernate.DestinationINFOHib;
+import hibernate.UserHib;
+import model.Users.Driver;
+import model.Users.Manager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class DestinationInfoTest {
+
+    private Manager manager;
+    private Destination destination;
+
+    private EntityManagerFactory entityManagerFactory;
+    private UserHib userHib;
+    private DestinationHib destinationHib;
+    private DestinationINFOHib destinationINFOHib;
+
+    private Destination currentDestination;
+    private Driver driver;
+
+
+    @BeforeEach
+    void setUp() {
+
+        entityManagerFactory = Persistence.createEntityManagerFactory("CargoSystem");
+
+        userHib = new UserHib(entityManagerFactory);
+        destinationHib = new DestinationHib(entityManagerFactory);
+        destinationINFOHib = new DestinationINFOHib(entityManagerFactory);
+
+        LocalDate HB = LocalDate.parse("2021-12-28", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        driver = new Driver("UNIT","TEST","UNIT_TEST_LOGIN","UNIT_TEST_PASSWORD", "UNIT_TEST_EMAIL", "8666666666666", "Vilnius", HB, "123456789");
+        driver.setId(99999);
+
+        manager = new Manager("UNIT_M_FIRST","UNIT_M_SUR","UNML","UNMP", "UNML@gmail.com", "8674412254", "Vilnius", HB, "Monikue.Monik@cargo.com");
+
+        destination = new Destination("KaKa", "Fufu", manager);
+    }
+
+
+
+    @Test
+    void setKelionesTrukme() {
+        userHib.createUser(manager);
+        userHib.createUser(driver);
+        driver.setSurname("Testuoju");
+        userHib.updateUser(driver);
+        Driver patikrinimas = (Driver) userHib.getUserByLoginData(driver.getUsername(), driver.getPassword());
+
+        List<Destination> OldDestination = destinationHib.getAllDestination();
+
+        destination.setManager(manager);
+        destinationHib.createDestination(destination);
+        destinationINFOHib.updateDTYPES();
+        List<Destination> NewDestination = destinationHib.getAllDestination();
+
+        for (int y=0; y<NewDestination.size(); y++){
+            for (int z=0; z<OldDestination.size(); z++){
+                if (NewDestination.get(y).getId() == OldDestination.get(z).getId()){
+                    NewDestination.remove(y);
+                }
+            }
+
+        }
+
+        currentDestination = NewDestination.get(0);
+
+
+        try{
+            ((DestinationInfo) currentDestination).setKelionesTrukme(-100);
+            fail("Should trigger an exception");
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Keliones trukme -100");
+        }
+        catch (Exception e){
+            fail();
+        }
+
+
+        Manager fakedd = (Manager) userHib.getUserById(manager.getId());
+        destinationHib.deleteDestination(currentDestination);
+        userHib.deleteUser(fakedd);
+        userHib.deleteUser(patikrinimas);
+
+    }
+
+    @Test
+    void setAvgSpeed() {
+        userHib.createUser(manager);
+        userHib.createUser(driver);
+        driver.setSurname("Testuoju");
+        userHib.updateUser(driver);
+        Driver patikrinimas = (Driver) userHib.getUserByLoginData(driver.getUsername(), driver.getPassword());
+
+        List<Destination> OldDestination = destinationHib.getAllDestination();
+
+        destination.setManager(manager);
+        destinationHib.createDestination(destination);
+        destinationINFOHib.updateDTYPES();
+        List<Destination> NewDestination = destinationHib.getAllDestination();
+
+        for (int y=0; y<NewDestination.size(); y++){
+            for (int z=0; z<OldDestination.size(); z++){
+                if (NewDestination.get(y).getId() == OldDestination.get(z).getId()){
+                    NewDestination.remove(y);
+                }
+            }
+
+        }
+
+        currentDestination = NewDestination.get(0);
+
+        try{
+            ((DestinationInfo) currentDestination).setAvgSpeed(-100);
+            fail("Should trigger an exception");
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Keliones trukme -100");
+        }
+        catch (Exception e){
+            fail();
+        }
+
+
+        Manager fakedd = (Manager) userHib.getUserById(manager.getId());
+        destinationHib.deleteDestination(currentDestination);
+        userHib.deleteUser(fakedd);
+        userHib.deleteUser(patikrinimas);
+
+    }
+
+    @Test
+    void CorrectsetAvgSpeed() {
+        userHib.createUser(manager);
+        userHib.createUser(driver);
+        driver.setSurname("Testuoju");
+        userHib.updateUser(driver);
+        Driver patikrinimas = (Driver) userHib.getUserByLoginData(driver.getUsername(), driver.getPassword());
+
+        List<Destination> OldDestination = destinationHib.getAllDestination();
+
+        destination.setManager(manager);
+        destinationHib.createDestination(destination);
+        destinationINFOHib.updateDTYPES();
+        List<Destination> NewDestination = destinationHib.getAllDestination();
+
+        for (int y=0; y<NewDestination.size(); y++){
+            for (int z=0; z<OldDestination.size(); z++){
+                if (NewDestination.get(y).getId() == OldDestination.get(z).getId()){
+                    NewDestination.remove(y);
+                }
+            }
+
+        }
+
+        currentDestination = NewDestination.get(0);
+
+        try{
+            ((DestinationInfo) currentDestination).setAvgSpeed(93);
+        }
+        catch (IllegalArgumentException e){
+            fail();
+        }
+        catch (Exception e){
+            fail();
+        }
+
+
+        Manager fakedd = (Manager) userHib.getUserById(manager.getId());
+        destinationHib.deleteDestination(currentDestination);
+        userHib.deleteUser(fakedd);
+        userHib.deleteUser(patikrinimas);
+
+    }
+
+    @Test
+    void setKuroSanaudos() {
+        userHib.createUser(manager);
+        userHib.createUser(driver);
+        driver.setSurname("Testuoju");
+        userHib.updateUser(driver);
+        Driver patikrinimas = (Driver) userHib.getUserByLoginData(driver.getUsername(), driver.getPassword());
+
+        List<Destination> OldDestination = destinationHib.getAllDestination();
+
+        destination.setManager(manager);
+        destinationHib.createDestination(destination);
+        destinationINFOHib.updateDTYPES();
+        List<Destination> NewDestination = destinationHib.getAllDestination();
+
+        for (int y=0; y<NewDestination.size(); y++){
+            for (int z=0; z<OldDestination.size(); z++){
+                if (NewDestination.get(y).getId() == OldDestination.get(z).getId()){
+                    NewDestination.remove(y);
+                }
+            }
+
+        }
+
+        currentDestination = NewDestination.get(0);
+
+        try{
+            ((DestinationInfo) currentDestination).setRealiosKuroSanaudos(-10);
+            fail();
+        }
+        catch (IllegalArgumentException e){
+
+        }
+        catch (Exception e){
+            fail();
+        }
+
+        Manager fakedd = (Manager) userHib.getUserById(manager.getId());
+        destinationHib.deleteDestination(currentDestination);
+        userHib.deleteUser(fakedd);
+        userHib.deleteUser(patikrinimas);
+    }
+
+}
