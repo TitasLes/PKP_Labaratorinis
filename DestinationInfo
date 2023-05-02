@@ -1,0 +1,132 @@
+package model.Transport;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import model.Users.Manager;
+import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
+
+@Data
+@Entity
+@NoArgsConstructor
+@DiscriminatorValue("INFO")
+public class DestinationInfo extends Destination {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+
+    public Double Atstumas; // Distance
+    public Double KelionesTrukme; // Duration
+    public Double AvgSpeed; // AvgSpeed
+    public Double RealiosKuroSanaudos; // Avg Emissions
+    public Double KrovinioVerte;
+    public Double KrovinioPajamos;
+
+    public DestinationInfo(String startPoint, String endPoint, Manager manager) {
+        super(startPoint, endPoint, manager);
+    }
+
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public String getKelionesTrukme() {
+        return KelionesTrukme.toString();
+    }
+
+    public void setKelionesTrukme(double kelionesTrukme) {
+        if (kelionesTrukme <= 0.0){
+            //FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Cargo update Error", "Cargo can't be >= 0");
+            throw new IllegalArgumentException();
+        }
+        else{this.KelionesTrukme = kelionesTrukme;}
+    }
+
+
+    public double getAvgSpeed() {
+        return AvgSpeed;
+    }
+
+    public void setAvgSpeed(double avgSpeed) {
+        if (avgSpeed <= 0.0){
+            //FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Cargo update Error", "Cargo can't be >= 0");
+            throw new IllegalArgumentException();
+        }
+        else{this.AvgSpeed = avgSpeed;}
+    }
+
+
+    public String getRealiosKuroSanaudos() {
+        return RealiosKuroSanaudos.toString();
+    }
+
+    public void setRealiosKuroSanaudos(double realiosKuroSanaudos) {
+        if (realiosKuroSanaudos <= 0.0){
+            //FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Cargo update Error", "Cargo can't be >= 0");
+            throw new IllegalArgumentException();
+        }
+        else{this.RealiosKuroSanaudos = realiosKuroSanaudos;}
+    }
+
+
+    public double getKrovinioVerte() {
+        return KrovinioVerte;
+    }
+
+    public void setKrovinioVerte(double krovinioVerte) {
+        if (krovinioVerte <= 0.0){
+            //FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Cargo update Error", "Cargo can't be >= 0");
+            throw new IllegalArgumentException();
+        }
+        else{this.KrovinioVerte = krovinioVerte;}
+    }
+
+
+    public double getKrovinioPajamos() {
+        return KrovinioPajamos;
+    }
+
+    public void setKrovinioPajamos(double krovinioPajamos) {
+        this.KrovinioPajamos = krovinioPajamos;
+    }
+
+
+    public String getAtstumas() {
+        return Atstumas.toString();
+    }
+
+    public void setAtstumas(double atstumas) {
+        if (atstumas <= 0.0){
+            //FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Cargo update Error", "Cargo can't be >= 0");
+            throw new IllegalArgumentException();
+        }
+        else{
+            this.Atstumas = atstumas;
+        }
+
+    }
+
+
+    @Override
+    public String toString(){
+        return super.getStartPoint() + " - " + super.getEndPoint();
+    }
+
+
+    @PrePersist
+    public void prePersist() {
+        if(Atstumas == null) //We set default value in case if the value is not set yet.
+            Atstumas = 0.0;
+    }
+}
