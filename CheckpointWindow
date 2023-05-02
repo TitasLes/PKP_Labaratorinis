@@ -1,0 +1,133 @@
+
+package fxControllers;
+
+import hibernate.CargoHib;
+import hibernate.CheckpointHib;
+import hibernate.DestinationHib;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import model.Statuses.CargoStatus;
+import model.Transport.Cargo;
+import model.Transport.Checkpoint;
+import model.Transport.Destination;
+import utils.FxUtils;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.*;
+
+public class CheckpointWindow implements Initializable {
+    @FXML
+    public TextField Clocation;
+    @FXML
+    public ChoiceBox<Destination> Destination;
+    @FXML
+    public DatePicker CleaveDate;
+    @FXML
+    public DatePicker CarrivalDate;
+
+    @FXML
+    public Button actionButton;
+
+    private Checkpoint currectCheckpoint;
+    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CargoSystem");
+
+    private CheckpointHib checkpointHib = new CheckpointHib(entityManagerFactory);
+    private DestinationHib destinationHib = new DestinationHib(entityManagerFactory);
+
+    public void setData(EntityManagerFactory entityManagerFactory, Checkpoint currectCheckpoint) {
+        this.currectCheckpoint = currectCheckpoint;
+        this.entityManagerFactory = entityManagerFactory;
+
+        fillFields();
+    }
+
+    public void fillDestinations(){
+        List arr = destinationHib.getAllDestination();
+        Destination.getItems().addAll(arr);
+    }
+
+    public void disableCreateFields(){
+        /*
+        CleaveDate.setDisable(true);
+        CarrivalDate.setDisable(true);
+        CexpectedDate.setDisable(true);
+        Cstatus.setDisable(true);
+
+        CleaveDate.setVisible(false);
+        CarrivalDate.setVisible(false);
+        CexpectedDate.setVisible(false);
+        Cstatus.setVisible(false);
+
+        TextLeave.setVisible(false);
+        TextArrival.setVisible(false);
+        TextExpected.setVisible(false);
+        TextCargo.setVisible(false);
+         */
+    }
+
+    private void fillFields() {
+        Checkpoint checkpoint = checkpointHib.getCheckpointById(currectCheckpoint.getId());
+
+        Clocation.setText(checkpoint.getLocation());
+        Destination.setValue(destinationHib.getDestinationById(checkpoint.getDestination().getId()));
+        CleaveDate.setValue(checkpoint.getLeaveDate());
+        CarrivalDate.setValue(checkpoint.getArrivalDate());
+
+        actionButton.setOnAction(actionEvent ->{
+            updateCheckpoint(checkpoint);
+        });
+        actionButton.setText("Update");
+
+    }
+
+    public void setData(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+        this.checkpointHib = new CheckpointHib(entityManagerFactory);
+    }
+
+    public void createCheckpoint(){
+        if(Clocation.getText().isEmpty() || Destination.getSelectionModel().isEmpty())
+        {
+            FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Vehicle creation report", "Some fields are empty");
+        }
+        else{
+            Checkpoint checkpoint = new Checkpoint(Clocation.getText(),CarrivalDate.getValue(),CleaveDate.getValue(), Destination.getSelectionModel().getSelectedItem());
+            checkpointHib.createCheckpoint(checkpoint);
+
+            FxUtils.alterMessage(Alert.AlertType.INFORMATION, "Successful", "Checkpoint creation report", "Checkpoint created successfully");
+        }
+    }
+
+    public void updateCheckpoint(Checkpoint checkpoint){
+
+        checkpoint.setLocation(Clocation.getText());
+        checkpoint.setArrivalDate(CarrivalDate.getValue());
+        checkpoint.setLeaveDate(CleaveDate.getValue());
+
+        LocalDate isvykimas = CleaveDate.getValue();
+        LocalDate atvykimas = CarrivalDate.getValue();
+
+        if(isvykimas.isAfter(atvykimas)){
+            FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Checkpoint creation report", "Time cant be like that");
+            throw new IllegalArgumentException();
+        }
+
+        checkpoint.setDestination(Destination.getSelectionModel().getSelectedItem());
+        checkpointHib.updateCheckpoint(checkpoint);
+        FxUtils.alterMessage(Alert.AlertType.INFORMATION, "Successful", "Checkpoint creation report", "Checkpoint " + Clocation.getText() + " updated successfully");
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+}
+
+
