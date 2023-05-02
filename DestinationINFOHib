@@ -1,0 +1,70 @@
+package hibernate;
+
+import model.Transport.Cargo;
+import model.Transport.Destination;
+import model.Transport.DestinationInfo;
+import model.Transport.Vehicle;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.List;
+
+public class DestinationINFOHib {
+    EntityManager entityManager = null;
+    EntityManagerFactory entityManagerFactory = null;
+
+    public DestinationINFOHib(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
+
+
+    public void updateDestinationINFO(DestinationInfo destinationInfo) {
+        entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(destinationInfo);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (entityManager != null) entityManager.close();
+        }
+    }
+
+
+    //Create an instance of Session from the SessionFactory object
+    //Create an instance of CriteriaBuilder by calling the getCriteriaBuilder() method
+    //Create an instance of CriteriaQuery by calling the CriteriaBuilder createQuery() method
+    //Create an instance of Query by calling the Session createQuery() method
+    //Call the getResultList() method of the query object, which gives us the results
+    public void updateDTYPES(){
+
+        entityManager = entityManagerFactory.createEntityManager();
+        Session session = entityManager.unwrap(Session.class);
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "UPDATE Destination set DTYPE='INFO' WHERE DTYPE= 'destination'";
+        Query query = session.createQuery(hql);
+
+        int result = query.executeUpdate();
+        System.out.println(result + " Record(s) Updated.");
+
+        transaction.commit();
+        session.close();
+        System.out.println("UPDATED");
+    }
+
+
+
+
+}
