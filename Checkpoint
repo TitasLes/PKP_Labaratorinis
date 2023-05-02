@@ -1,0 +1,80 @@
+package model.Transport;
+
+import lombok.*;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+
+public class Checkpoint implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String location;
+    private LocalDate arrivalDate;
+    private LocalDate leaveDate;
+
+    @ManyToOne (cascade = CascadeType.MERGE)
+    private Destination destination;
+
+    public Checkpoint(String location, LocalDate arrivalDate, LocalDate leaveDate, Destination destination) {
+        this.location = location;
+        this.arrivalDate = arrivalDate;
+        this.leaveDate = leaveDate;
+        this.destination = destination;
+    }
+
+    @Override
+    public String toString() {
+        return "Kontrolinis punktas -> "+ location + ", Reise:(" + destination +")";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(LocalDate arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public LocalDate getLeaveDate() {
+        return leaveDate;
+    }
+
+    public void setLeaveDate(LocalDate leaveDate) {
+        this.leaveDate = leaveDate;
+    }
+
+    public Destination getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Destination destination) {
+        this.destination = destination;
+    }
+}
