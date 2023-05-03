@@ -1,0 +1,9 @@
+
+//OnAction Trigger
+    public void UpdateWithCargoReq(){
+        Cargo cargo = (Cargo) DesCargo.getSelectionModel().getSelectedItem();
+        List parametered = vehicleHib.getAllVehiclesThatMeetRequirementsWithCargo(cargo);
+        DesVehicle.getItems().clear();
+        DesVehicle.getItems().addAll(parametered);
+        DesVehicle.setDisable(false);
+    }
