@@ -1,0 +1,61 @@
+ @Test
+    void NEGKroviniomase() {
+        try{
+            cargo.setKroviniomase(-100);
+            fail("Should trigger an exception");
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Krovinio mases patikrinimas: Tikrinama kai mase lygi -100");
+        }
+        catch (Exception e){
+            fail("Trigered an unknown exception");
+        }
+    }
+
+    @Test
+    void ZEROKroviniomase() {
+        try{
+            cargo.setKroviniomase(0);
+            fail("Should trigger an exception");
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Krovinio mases patikrinimas: Tikrinama kai mase lygi 0");
+        }
+        catch (Exception e){
+            fail("Trigered an unknown exception");
+        }
+    }
+
+ @Test
+    void CheckKrovinioMase() {
+        try {
+            cargo.setKroviniomase(2900);
+            double ans = 2900;
+            assertEquals(ans, cargo.getKroviniomase());
+        }catch (Exception e){
+            fail();
+        }
+    }
+
+ void checkstatus(){
+        cargo.setStatus(CargoStatus.valueOf("NOT_STARTED"));
+        try {
+            assertEquals(CargoStatus.valueOf("NOT_STARTED"), cargo.getStatus());
+        }
+        catch (Exception e){
+            fail("Trigered an unknown exception");
+        }
+
+    }
+
+    @Test
+    void CheckDiffrentStatus(){
+        cargo.setStatus(CargoStatus.valueOf("NOT_STARTED"));
+        try {
+            assertNotEquals(CargoStatus.valueOf("RESTING"), cargo.getStatus());
+
+        }
+        catch (Exception e){
+            fail("Trigered an unknown exception");
+        }
+    }
