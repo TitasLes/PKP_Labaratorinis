@@ -1,0 +1,47 @@
+ public void setKroviniomase(double kroviniomase) {
+        if (kroviniomase <= 0.0){
+            //FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Cargo update Error", "Cargo can't be >= 0");
+            throw new IllegalArgumentException();
+        }
+        else{
+            this.kroviniomase = kroviniomase;
+        }
+
+    }
+
+private void updateCargo (Cargo cargo) {
+        this.cargo = cargo;
+        Destination destination = (Destination) cargo.getDestination();
+
+        cargo.setContent(Cname.getText());
+        cargo.setLeaveDate(CleaveDate.getValue());
+        cargo.setArrivalDate(CarrivalDate.getValue());
+        cargo.setExpectedArrivalDate(CexpectedDate.getValue());
+
+        try {
+            cargo.setStatus(CargoStatus.valueOf(Cstatus.getSelectionModel().getSelectedItem().toString()));
+        }
+        catch (NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Cargo update Error", "You must fill Cargo Status Field");
+            throw e;
+        }
+
+        try {
+            cargo.setCargoType(CargoType.valueOf(CType.getSelectionModel().getSelectedItem().toString()));
+        }
+        catch (NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Cargo update Error", "You must fill Cargo Type Field");
+            throw e;
+        }
+
+        try {
+            cargo.setKroviniomase(Double.parseDouble(CWeight.getText()));
+        }
+        catch (IllegalArgumentException e){
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Cargo update Error", "Cargo can't be >= 0");
+            throw e;
+        }
+
+        cargoHib.updateCargo(cargo, destination);
+        FxUtils.alterMessage(Alert.AlertType.INFORMATION, "Successful", "Cargo creation report", "Cargo " + Cname.getText() + " updated successfully");
+    }
