@@ -1,0 +1,26 @@
+///CargoWindow.java///
+
+public void DisableData(int Propertie){
+        switch(Propertie){
+            case 1:{
+
+                break;
+
+            }
+            case 2:{
+
+                break;
+
+            }
+            case 3:{
+                CleaveDate.setDisable(true);
+                CarrivalDate.setDisable(true);
+                CexpectedDate.setDisable(true);
+                cargoDestination.setDisable(true);
+                Cname.setDisable(true);
+                CWeight.setDisable(true);
+                break;
+            }
+            default:{}
+        }
+    }
