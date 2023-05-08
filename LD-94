@@ -1,0 +1,27 @@
+public List getAllVehiclesThatMeetRequirementsWithCargo(Cargo cargo){
+        entityManager = entityManagerFactory.createEntityManager();
+
+        double MAXW = cargo.getKroviniomase();
+        CargoType Type = cargo.getCargoType();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Vehicle> query = criteriaBuilder.createQuery(Vehicle.class);
+        Root<Vehicle> root = query.from(Vehicle.class);
+
+        Predicate[] predicates = new Predicate[2];
+        predicates[0] = criteriaBuilder.gt(root.get("MaxWeight"), MAXW);
+        predicates[1] = criteriaBuilder.equal(root.get("cargoType"), Type);
+        query.select(root).where(predicates);
+
+
+
+        Query q;
+        try {
+            q = entityManager.createQuery(query);
+            return q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+}
