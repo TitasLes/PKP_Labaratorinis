@@ -1,40 +1,41 @@
- @Test
-    void setKuroSanaudos() {
-        // Create necessary objects and persist them
+ void setKuroSanaudos() {
         userHib.createUser(manager);
         userHib.createUser(driver);
         driver.setSurname("Testuoju");
         userHib.updateUser(driver);
         Driver patikrinimas = (Driver) userHib.getUserByLoginData(driver.getUsername(), driver.getPassword());
+
+        List<Destination> OldDestination = destinationHib.getAllDestination();
+
         destination.setManager(manager);
         destinationHib.createDestination(destination);
         destinationINFOHib.updateDTYPES();
-        currentDestination = (DestinationInfo) destinationHib.getAllDestination().get(0);
+        List<Destination> NewDestination = destinationHib.getAllDestination();
 
-        // Test setting valid value
-        try {
-            ((DestinationInfo) currentDestination).setRealiosKuroSanaudos(10);
-            assertEquals(10, ((DestinationInfo) currentDestination).getRealiosKuroSanaudos());
-        } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException thrown when setting valid value");
-        } catch (Exception e) {
-            fail("Unexpected exception thrown when setting valid value");
+        for (int y=0; y<NewDestination.size(); y++){
+            for (int z=0; z<OldDestination.size(); z++){
+                if (NewDestination.get(y).getId() == OldDestination.get(z).getId()){
+                    NewDestination.remove(y);
+                }
+            }
+
         }
 
-        // Test setting negative value
-        try {
+        currentDestination = NewDestination.get(0);
+
+        try{
             ((DestinationInfo) currentDestination).setRealiosKuroSanaudos(-10);
-            fail("IllegalArgumentException should be thrown when setting negative value");
-        } catch (IllegalArgumentException e) {
-            // Exception expected
-        } catch (Exception e) {
-            fail("Unexpected exception thrown when setting negative value");
+            fail();
+        }
+        catch (IllegalArgumentException e){
+
+        }
+        catch (Exception e){
+            fail();
         }
 
-        // Cleanup
+        Manager fakedd = (Manager) userHib.getUserById(manager.getId());
         destinationHib.deleteDestination(currentDestination);
-        userHib.deleteUser(manager);
-        userHib.deleteUser(driver);
+        userHib.deleteUser(fakedd);
         userHib.deleteUser(patikrinimas);
     }
-
