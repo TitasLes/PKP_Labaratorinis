@@ -1,0 +1,13 @@
+public void createCargo() {
+        //Checks if text fields are empty
+        if(Cname.getText().isEmpty() || CType.getSelectionModel().isEmpty() || CWeight.getText().isEmpty())
+        {
+            FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Cargo creation report", "Some fields are empty");
+        }
+        else {
+
+            Cargo cargo = new Cargo(Cname.getText(), CargoType.valueOf(CType.getSelectionModel().getSelectedItem().toString()),Double.parseDouble(CWeight.getText()));
+            List parametered = vehicleHib.getAllVehiclesThatMeetRequirementsWithCargo(cargo);
+        }
+
+    }
