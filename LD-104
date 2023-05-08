@@ -1,0 +1,25 @@
+@Test
+    void testDeleteCargo() {
+        Cargo cargotest = new Cargo(1, "Content", destination, leave, arr, arr, CargoStatus.valueOf("NOT_STARTED"), 100, CargoType.valueOf("FREEZER"));
+
+        ArrayList<Cargo> cargoList = new ArrayList<>();
+        cargoList.add(cargotest);
+        Cargo selectedCargo = cargoList.get(0);
+
+        // Test deleting a SHIPPING cargo will FAIL
+        selectedCargo.setStatus(CargoStatus.NOT_STARTED);
+        cargoList.get(0);
+        deleteCargo(selectedCargo);
+    }
+    
+    void deleteCargo(Cargo Ateinantis) {
+        Cargo cargo = Ateinantis;
+        if(cargo.getStatus() == CargoStatus.NOT_STARTED)
+        {
+            /*TEST*/
+            assert true;
+        }
+        else{
+            assert false;
+        }
+    }
