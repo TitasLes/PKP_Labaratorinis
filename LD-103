@@ -1,0 +1,44 @@
+@Test
+    void checkstatusNS(){
+        cargo.setStatus(CargoStatus.valueOf("NOT_STARTED"));
+        try {
+            assertEquals(CargoStatus.valueOf("NOT_STARTED"), cargo.getStatus());
+        }
+        catch (Exception e){
+            fail("Trigered an unknown exception");
+        }
+
+    }
+    @Test
+    void checkstatusSH(){
+        cargo.setStatus(CargoStatus.valueOf("SHIPPING"));
+        try {
+            assertEquals(CargoStatus.valueOf("SHIPPING"), cargo.getStatus());
+        }
+        catch (Exception e){
+            fail("Trigered an unknown exception");
+        }
+
+    }
+    @Test
+    void checkstatusRS(){
+        cargo.setStatus(CargoStatus.valueOf("RESTING"));
+        try {
+            assertEquals(CargoStatus.valueOf("RESTING"), cargo.getStatus());
+        }
+        catch (Exception e){
+            fail("Trigered an unknown exception");
+        }
+
+    }
+    @Test
+    void checkstatusCP(){
+        cargo.setStatus(CargoStatus.valueOf("COMPLETED"));
+        try {
+            assertEquals(CargoStatus.valueOf("COMPLETED"), cargo.getStatus());
+        }
+        catch (Exception e){
+            fail("Trigered an unknown exception");
+        }
+
+    }
