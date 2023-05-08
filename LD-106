@@ -1,0 +1,11 @@
+public void deleteCargo() {
+        Cargo cargo = cargoList.getSelectionModel().getSelectedItem();
+        if(cargo.getStatus() == CargoStatus.NOT_STARTED)
+        {
+            cargoHib.deleteCargo((Cargo) cargoList.getSelectionModel().getSelectedItem());
+            cargoList.getItems().remove(cargoList.getSelectionModel().getSelectedItem());
+            cargoList.getSelectionModel().clearSelection();
+        }
+        else FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Cargo deletion report", "Started cargo can't be deleted");
+
+    }
