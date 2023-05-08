@@ -1,0 +1,24 @@
+///package model.Statuses;///
+
+public enum CargoType {
+    ECONOMY ,BUSSINESS , FREEZER;
+}
+
+///cargo.java///
+public void setCargoType(CargoType cargoType) {
+        this.cargoType = cargoType;
+    }
+    public CargoType getCargoType() {
+        return cargoType;
+    }
+    
+    
+   //// Vehicle.java////
+    
+    public CargoType getCargoType() {
+        return cargoType;
+    }
+
+    public void setCargoType(CargoType cargoType) {
+        this.cargoType = cargoType;
+    }
