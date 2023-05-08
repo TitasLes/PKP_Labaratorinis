@@ -1,0 +1,19 @@
+ private void disableData() {
+        try {
+            if (!(admin == null)) {
+
+            }
+            if (!(manager == null)){
+                allTabs.getTabs().remove(userManagementTab);
+
+            }
+            if (!(driver == null)){
+                allTabs.getTabs().remove(userManagementTab);
+                CreateDestinationButton.setDisable(true);
+                CreateCargoButton.setDisable(true);
+                CreateVehicleButton.setDisable(true);
+
+                DeleteVehicleButton.setDisable(true);
+                DestinationDeleteButton.setDisable(true);
+                CargoDeleteButton.setDisable(true);
+            }
