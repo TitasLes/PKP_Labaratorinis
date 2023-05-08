@@ -1,0 +1,6 @@
+///cargoStatus.java///
+package model.Statuses;
+
+public enum CargoStatus {
+    NOT_STARTED ,SHIPPING, RESTING, COMPLETED;
+}
