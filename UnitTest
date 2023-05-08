@@ -1,42 +1,40 @@
  @Test
     void setKuroSanaudos() {
+        // Create necessary objects and persist them
         userHib.createUser(manager);
         userHib.createUser(driver);
         driver.setSurname("Testuoju");
         userHib.updateUser(driver);
         Driver patikrinimas = (Driver) userHib.getUserByLoginData(driver.getUsername(), driver.getPassword());
-
-        List<Destination> OldDestination = destinationHib.getAllDestination();
-
         destination.setManager(manager);
         destinationHib.createDestination(destination);
         destinationINFOHib.updateDTYPES();
-        List<Destination> NewDestination = destinationHib.getAllDestination();
+        currentDestination = (DestinationInfo) destinationHib.getAllDestination().get(0);
 
-        for (int y=0; y<NewDestination.size(); y++){
-            for (int z=0; z<OldDestination.size(); z++){
-                if (NewDestination.get(y).getId() == OldDestination.get(z).getId()){
-                    NewDestination.remove(y);
-                }
-            }
-
+        // Test setting valid value
+        try {
+            ((DestinationInfo) currentDestination).setRealiosKuroSanaudos(10);
+            assertEquals(10, ((DestinationInfo) currentDestination).getRealiosKuroSanaudos());
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException thrown when setting valid value");
+        } catch (Exception e) {
+            fail("Unexpected exception thrown when setting valid value");
         }
 
-        currentDestination = NewDestination.get(0);
-
-        try{
+        // Test setting negative value
+        try {
             ((DestinationInfo) currentDestination).setRealiosKuroSanaudos(-10);
-            fail();
-        }
-        catch (IllegalArgumentException e){
-
-        }
-        catch (Exception e){
-            fail();
+            fail("IllegalArgumentException should be thrown when setting negative value");
+        } catch (IllegalArgumentException e) {
+            // Exception expected
+        } catch (Exception e) {
+            fail("Unexpected exception thrown when setting negative value");
         }
 
-        Manager fakedd = (Manager) userHib.getUserById(manager.getId());
+        // Cleanup
         destinationHib.deleteDestination(currentDestination);
-        userHib.deleteUser(fakedd);
+        userHib.deleteUser(manager);
+        userHib.deleteUser(driver);
         userHib.deleteUser(patikrinimas);
     }
+
