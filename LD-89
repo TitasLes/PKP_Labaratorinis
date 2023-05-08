@@ -1,0 +1,10 @@
+public void setKroviniomase(double kroviniomase) {
+        if (kroviniomase <= 0.0){
+            //FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Cargo update Error", "Cargo can't be >= 0");
+            throw new IllegalArgumentException();
+        }
+        else{
+            this.kroviniomase = kroviniomase;
+        }
+
+    }
