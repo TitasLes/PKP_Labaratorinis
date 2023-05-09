@@ -1,0 +1,5 @@
+  <Button fx:id="ReCal" mnemonicParsing="false" onAction="#ReCAL" text="R">
+                           <HBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </HBox.margin>
+                        </Button>
