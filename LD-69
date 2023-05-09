@@ -1,0 +1,62 @@
+ public void UpdateINFO() {
+        DestinationInfo destinationInfo = new DestinationInfo(currentDestination.getStartPoint(), currentDestination.getEndPoint(), currentDestination.getManager());
+        destinationInfo.setId(currentDestination.getId());
+        destinationInfo.setCargo(currentDestination.getCargo());
+        destinationInfo.setDriver(currentDestination.getDriver());
+        destinationInfo.setVehicle(currentDestination.getVehicle());
+
+
+        try {
+            destinationInfo.setAtstumas( Double.parseDouble( DITripDistance.getText()));
+        }
+        catch (NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Destination info warning", "Some fields are empty");
+            throw e;
+        }
+        try {
+            destinationInfo.setKelionesTrukme( Double.parseDouble(DIDuration.getText()));
+        }
+        catch (NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Destination info warning", "Some fields are empty");
+            throw e;
+        }
+        try {
+            destinationInfo.setAvgSpeed( Double.parseDouble(DIAvgSpeed.getText()));
+        }
+        catch (NumberFormatException | NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Destination info warning", "Some fields are empty");
+            throw e;
+        }
+        try {
+            destinationInfo.setRealiosKuroSanaudos( Double.parseDouble(DIAvgEmissions.getText()));
+        }
+        catch (NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Destination info warning", "Some fields are empty");
+            throw e;
+        }
+        try {
+            destinationInfo.setKrovinioVerte( Double.parseDouble(DICargoWorth.getText()));
+        }
+        catch (NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Destination info warning", "Some fields are empty");
+            throw e;
+        }
+        try {
+            destinationInfo.setKrovinioPajamos( Double.parseDouble(DICargoProfit.getText()));
+        }
+        catch (NumberFormatException | NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Destination info warning", "Some fields are empty");
+            throw e;
+        }
+
+        try{
+            destinationINFOHib.updateDestinationINFO(destinationInfo);
+        }
+        catch (NumberFormatException | NullPointerException e){
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Destination info warning", "Destination information is not fully filled in ");
+            throw e;
+        }
+
+
+
+    }
