@@ -1,0 +1,25 @@
+   public void updateCheckpoint(Checkpoint checkpoint) {
+        entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(checkpoint);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (entityManager != null) entityManager.close();
+        }
+    }
+
+    public void deleteCheckpoint(Checkpoint checkpoint) {
+        entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(entityManager.find(Checkpoint.class, checkpoint.getId()));
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (entityManager != null) entityManager.close();
+        }
+    }
