@@ -1,0 +1,31 @@
+   @Test
+    void createCheckpoint() {
+        List<Checkpoint> OldCheckpoints = checkpointHib.getAllCheckpoints();
+        userHib.createUser(manager);
+        //destinationHib.createDestination(destination);
+
+        checkpoint.setDestination(destination);
+        checkpointHib.createCheckpoint(checkpoint);
+
+        List<Checkpoint> NewCheckpoints = checkpointHib.getAllCheckpoints();
+        NewCheckpoints.removeAll(OldCheckpoints);
+
+        try {
+            for (int i=0; i<NewCheckpoints.size(); i++)
+            {
+                destination.setId(NewCheckpoints.get(i).getDestination().getId());
+                checkpointHib.deleteCheckpoint(NewCheckpoints.get(i));
+            }
+
+        }
+        catch (NullPointerException e) {fail();}
+
+
+        Destination fakeD = destinationHib.getDestinationById(destination.getId());
+        destinationHib.deleteDestination(fakeD);
+
+        Manager fakedd = (Manager) userHib.getUserById(manager.getId());
+        userHib.deleteUser(fakedd);
+
+
+    }
