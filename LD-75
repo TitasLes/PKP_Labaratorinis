@@ -1,4 +1,4 @@
- public void sukurticheckpoint(Checkpoint checkpoint) {
+ public void createCheckpoint(Checkpoint checkpoint) {
         entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
