@@ -1,0 +1,12 @@
+    public void updateCheckpoint(Checkpoint checkpoint) {
+        entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(checkpoint);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (entityManager != null) entityManager.close();
+        }
+    }
