@@ -1,0 +1,21 @@
+   public void createVehicle() {
+        //Checks if text fields are empty
+        if(Vname.getText().isEmpty() || Vmodel.getText().isEmpty() || Vdescription.getText().isEmpty())
+        {
+            FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Vehicle creation report", "Some fields are empty");
+        }
+        else {
+            Vehicle vehicle;
+            try{
+                vehicle = new Vehicle(Vname.getText(), Vmodel.getText(), Vdescription.getText(), Vpower.getText(), VfuelConsumption.getText(), Float.parseFloat(VMaxWeight.getText()), CargoType.valueOf(VAcceptsOnly.getSelectionModel().getSelectedItem().toString()));
+
+            } catch (NumberFormatException e){
+                FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Vehicle update Error", e.toString());
+                throw e;
+            }
+            vehicleHib.createVehicle(vehicle);
+
+            FxUtils.alterMessage(Alert.AlertType.INFORMATION, "Successful", "Vehicle creation report", "Vehicle " + Vname.getText() + " created successfully");
+        }
+
+    }
