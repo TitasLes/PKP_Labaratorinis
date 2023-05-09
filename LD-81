@@ -1,0 +1,12 @@
+   public void createCheckpoint(){
+        if(Clocation.getText().isEmpty() || Destination.getSelectionModel().isEmpty())
+        {
+            FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Vehicle creation report", "Some fields are empty");
+        }
+        else{
+            Checkpoint checkpoint = new Checkpoint(Clocation.getText(),CarrivalDate.getValue(),CleaveDate.getValue(), Destination.getSelectionModel().getSelectedItem());
+            checkpointHib.createCheckpoint(checkpoint);
+
+            FxUtils.alterMessage(Alert.AlertType.INFORMATION, "Successful", "Checkpoint creation report", "Checkpoint created successfully");
+        }
+    }
