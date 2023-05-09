@@ -1,0 +1,44 @@
+ public void ReCAL(ActionEvent actionEvent) {
+        double CarEmmisions = Double.parseDouble(currentDestination.getVehicle().getFuelConsumptionIn100Km());
+        double Speed = Double.parseDouble(DIAvgSpeed.getText());
+        double AdditionalEmmisions;
+        if (Speed > 90){
+            double a;
+            a = Speed - 90;
+            AdditionalEmmisions = ((9*Math.pow(a, 3) + 95*Math.pow(a, 2))/25000)+0.5;
+        }
+        else {
+            AdditionalEmmisions = 0.0;
+        }
+        double CarCargo = currentCargo.getKroviniomase();
+        double Tonazas = (CarCargo/10000)*3;
+
+        double RealAVGEmmisions = CarEmmisions + AdditionalEmmisions + Tonazas;
+        double RealAVGEmmisionsforCALL = RealAVGEmmisions;
+        RealAVGEmmisions = RealAVGEmmisions*100;
+        RealAVGEmmisions = Math.round(RealAVGEmmisions);
+        RealAVGEmmisions = RealAVGEmmisions/100;
+        ((DestinationInfo)currentDestination).setRealiosKuroSanaudos(RealAVGEmmisions);
+        DIAvgEmissions.setText( String.valueOf (((DestinationInfo)currentDestination).getRealiosKuroSanaudos()));
+
+        double cargoWorth = Double.parseDouble(DICargoWorth.getText());
+        double durationINhours = Double.parseDouble(DIDuration.getText()) / 60;
+        double salaryHourly = 25;
+
+        double distance = Double.parseDouble(DITripDistance.getText());
+        double salary = salaryHourly * durationINhours;
+        double Litrazas = (RealAVGEmmisionsforCALL * distance) / 100;
+        double petrolKaina = 1.65;
+        double petrolCost = petrolKaina * Litrazas;
+
+        double Minusprofit = salary + petrolCost;
+        double profit = cargoWorth - Minusprofit;
+
+        profit = profit *100;
+        profit = Math.round(profit);
+        profit = profit / 100;
+
+        ((DestinationInfo)currentDestination).setKrovinioPajamos(profit);
+        DICargoProfit.setText(String.valueOf(profit));
+
+    }
