@@ -1,0 +1,13 @@
+    @Test
+    void createVehicle() {
+
+        vehicleHib.createVehicle(vehicle);
+        vehicle.setFuelConsumptionIn100Km((float) 6.20);
+        vehicleHib.updateVehicle(vehicle);
+
+        Vehicle patikrinimas = vehicleHib.getVehicleById(vehicle.getId());
+        System.out.println(patikrinimas.getId());
+        assertEquals( "6.2", patikrinimas.getFuelConsumptionIn100Km());
+
+        vehicleHib.deleteVehicle(patikrinimas);
+    }
