@@ -1,0 +1,36 @@
+    public void fillFields() {
+
+        try {
+            DesStart.setText(currentDestination.getStartPoint());
+            DesEnd.setText(currentDestination.getEndPoint());
+            DesCargo.setText(currentDestination.getCargo().toString());
+            DesVehicle.setText(currentDestination.getVehicle().toString());
+            DesDriver.setText(currentDestination.getDriver().toString());
+            DesManager.setText(currentDestination.getManager().toString());
+        }
+        catch (NullPointerException e) {
+
+            FxUtils.alterMessage(Alert.AlertType.WARNING, "Warning", "Destination info warning", "Destination information is not fully filled in ");
+            throw e;
+        }
+        CWeight.setText(currentCargo.getWeight().toString());
+        CType.setText(currentCargo.getCargoType().toString());
+
+        try {
+            if (currentDestination instanceof DestinationInfo){
+                DITripDistance.setText( ((DestinationInfo)currentDestination).getAtstumas());
+                DIDuration.setText( ((DestinationInfo)currentDestination).getKelionesTrukme());
+                DIAvgSpeed.setText( String.valueOf (((DestinationInfo)currentDestination).getAvgSpeed()));
+                DIAvgEmissions.setText( String.valueOf (((DestinationInfo)currentDestination).getRealiosKuroSanaudos()));
+                DICargoWorth.setText( String.valueOf (((DestinationInfo)currentDestination).getKrovinioVerte()));
+                DICargoProfit.setText( String.valueOf (((DestinationInfo)currentDestination).getKrovinioPajamos()));
+            }
+
+
+            //DIAvgEmissions.setText(currentDestination.);
+        }
+        catch (NullPointerException e){
+            // Do nothing maybe values are not set
+        }
+
+    }
