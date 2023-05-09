@@ -1,0 +1,19 @@
+    public void updateCheckpoint(Checkpoint checkpoint){
+
+        checkpoint.setLocation(Clocation.getText());
+        checkpoint.setArrivalDate(CarrivalDate.getValue());
+        checkpoint.setLeaveDate(CleaveDate.getValue());
+
+        LocalDate isvykimas = CleaveDate.getValue();
+        LocalDate atvykimas = CarrivalDate.getValue();
+
+        if(isvykimas.isAfter(atvykimas)){
+            FxUtils.alterMessage(Alert.AlertType.ERROR, "Error", "Checkpoint creation report", "Time cant be like that");
+            throw new IllegalArgumentException();
+        }
+
+        checkpoint.setDestination(Destination.getSelectionModel().getSelectedItem());
+        checkpointHib.updateCheckpoint(checkpoint);
+        FxUtils.alterMessage(Alert.AlertType.INFORMATION, "Successful", "Checkpoint creation report", "Checkpoint " + Clocation.getText() + " updated successfully");
+
+    }
