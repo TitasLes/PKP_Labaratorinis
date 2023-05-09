@@ -1,0 +1,16 @@
+ private void fillFields() {
+        Vehicle vehicle = (Vehicle) vehicleHib.getVehicleById(currentVehicle.getId());
+        Vname.setText(vehicle.getName());
+        Vmodel.setText(vehicle.getModel());
+        Vdescription.setText(vehicle.getDescription());
+        Vpower.setText(vehicle.getHorsePower());
+        VfuelConsumption.setText(vehicle.getFuelConsumptionIn100Km());
+        VMaxWeight.setText(vehicle.getMaxWeight());
+        VAcceptsOnly.setValue(vehicle.getCargoType());
+
+        actionButton.setOnAction(actionEvent ->{
+            updateVehicle(vehicle);
+        });
+        actionButton.setText("Update");
+
+    }
